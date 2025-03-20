@@ -1,0 +1,10 @@
+/* styles.css ou pokemon-add.component.css */
+.snack-bar-custom {
+  background-color: #4CAF50 !important;
+  color: blue !important;
+  font-weight: bold !important;
+}
+.snack-bar-error {
+  background-color: #f44336; /* Rouge */
+  color: white;
+}

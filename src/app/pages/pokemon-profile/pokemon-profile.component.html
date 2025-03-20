@@ -1,0 +1,58 @@
+<section class="d-flex justify-content-center">
+  @if (pokemon(); as pokemon) {
+    <div style="max-width: 300px" class="card p-2">
+      <img height="200px" class="card-img " [src]="pokemon.picture" [alt]="pokemon.name">
+      <div style="line-height: 20px">
+        <div>
+          <h2>{{pokemon.name}}</h2>
+          <p>Points de vie <span>{{pokemon.life}}</span></p><hr>
+          <p>Degats <span>{{pokemon.damage}}</span></p><hr>
+          <p>Types
+            <span>
+              @for(type of pokemon.types;track type){
+                <span class="ms-1 bg-secondary rounded-pill badge ">{{ type }}</span>
+              }
+            </span>
+          </p><hr>
+          <p>Date de creation <span>{{pokemon.createdAt  | date:'dd/MM/yyyy'}}</span></p>
+        </div>
+        <div class="d-flex justify-content-around">
+          <button routerLink="/pokemons" class="text-decoration-none btn btn-light text-warning" type="button">RETOUR</button>
+          <button [routerLink]="['/pokemons/edit/',pokemon.id]" class="text-decoration-none btn btn-light text-warning" type="button">EDITER</button>
+          <button (click)="onDelete()" class="text-decoration-none btn btn-light text-warning" type="button">SUPPRIMER</button>
+        </div>
+      </div>
+    </div>
+  }
+  @if (loading())
+   {
+    <div id="floatingCirclesG">
+      <div class="f_circleG" id="frotateG_01"></div>
+      <div class="f_circleG" id="frotateG_02"></div>
+      <div class="f_circleG" id="frotateG_03"></div>
+      <div class="f_circleG" id="frotateG_04"></div>
+      <div class="f_circleG" id="frotateG_05"></div>
+      <div class="f_circleG" id="frotateG_06"></div>
+      <div class="f_circleG" id="frotateG_07"></div>
+      <div class="f_circleG" id="frotateG_08"></div>
+    </div>
+  }
+  @if(error()){
+    <div class="container text-center mt-5">
+      <div class="">
+        <div class="card-body">
+          <img
+            src="http://assets.pokemon.com/assets/cms2/img/pokedex/full/035.png"
+            class="img-fluid mx-auto d-block"
+            alt="Rondoudou"
+          />
+          <h2 class="mt-4">Hey, ce Pokemon n'existe pas !</h2>
+          <a routerLink="/pokemons" class="btn btn-link mt-3 text-decoration-none">
+            RETOURNER À L'ACCUEIL</a
+          >
+        </div>
+      </div>
+    </div>
+
+  }
+</section>

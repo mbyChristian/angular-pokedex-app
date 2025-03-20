@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "ngx-toastr/toastr";
+
+.snack-bar-custom {
+  background-color: rgb(50, 50, 50) !important;
+  color: rgb(186, 186, 186);
+}
+
+/* Style du texte "Fermer" */
+.snack-bar-custom .mat-mdc-snack-bar-actions .mdc-button__label {
+  color: rgb(247, 208, 62) ;
+}
+
+/* Supprime le fond au survol */
+.snack-bar-custom .mat-mdc-snack-bar-actions .mat-mdc-snack-bar-action:hover {
+  background-color: transparent !important;
+}
+
+/* Supprime l'effet de vague (ripple) */
+.snack-bar-custom .mat-mdc-snack-bar-actions .mat-mdc-button-ripple::before,
+.snack-bar-custom .mat-mdc-snack-bar-actions .mat-mdc-button-persistent-ripple::before,
+.snack-bar-custom .mat-mdc-snack-bar-actions .mdc-button__ripple {
+  display: none !important;
+}
+
+
+
+

@@ -1,0 +1,90 @@
+<section class="mt-5 container">
+  <div style="max-width: 340px; margin: 0 auto" class="card p-3">
+    <div>
+      <div class="d-flex ">
+        <h4 class="card-title">Ajouter un nouveau Pokemon</h4>
+        <img [src]="pokemonPicture.value"  width="50px" height="50px" [alt]="pokemonName.value">
+      </div>
+      <hr>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="mb-2 w-100 d-flex">
+          <span>Name</span>
+          <div class="d-flex flex-column">
+            <input [class.is-invalid]="pokemonName.invalid && pokemonName.dirty" formControlName="name" class="rounded-1 form-control" style="height: 35px;width: 60%" type="text" placeholder="Nom du pakemon"/>
+            @if (pokemonName.dirty) {
+              @if (pokemonName.hasError('required')) {
+                <span class="invalid-feedback">ce champ est requi</span>
+              }@if (pokemonName.hasError('minlength')) {
+                <span class="invalid-feedback">veuillez saisir un nom plus long. min({{pokemonName.getError('minlength').requiredLength}})</span>
+              }
+              @if (pokemonName.hasError('maxlength')) {
+                <span class="invalid-feedback">veuillez saisir un nom plus cour. max({{pokemonName.getError('maxlength').requiredLength}})</span>
+              }
+              @if (pokemonName.hasError('pattern')) {
+                <span class="invalid-feedback">veuillez saisir des lettres. </span>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="mb-2 w-100 d-flex">
+          <span>Image</span>
+          <div class="d-flex flex-column">
+            <input [class.is-invalid]="pokemonPicture.invalid && pokemonPicture.dirty" formControlName="picture" class="rounded-1 form-control" style="height: 35px;width: 60%" type="text" placeholder="Url de l'image du pokemon"/>
+            @if (pokemonPicture.dirty && pokemonPicture.invalid) {
+              <span class="invalid-feedback">ce champ est requi</span>
+            }
+          </div>
+        </div>
+
+
+        <div class="d-flex justify-content-between">
+          <span>Points de vies</span>
+          <div style="width: 60%; height: 30px" class="mb-2 d-flex justify-content-between">
+            <button  type="button" class="btn btn-outline-secondary"
+                     (click)="decrementLife()" [disabled]="pokemonLife.value<=POKEMON_REGLE.MIN_LIFE">-</button>
+            <input style="all: unset;width: 10%; text-align: center" type="text" formControlName="life">
+            <button (click)="incrementLife()" type="button" class="btn btn-outline-secondary" [disabled]="pokemonLife.value>=POKEMON_REGLE.MAX_LIFE">+</button>
+          </div>
+        </div>
+        <div style="height: 30px" class="mb-2 d-flex justify-content-between">
+          <span>Degats</span>
+          <div style="width: 60%" class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" (click)="decrementDamage()" [disabled]="pokemonDamage.value<=POKEMON_REGLE.MIN_DAMAGE">-</button>
+            <input style="all: unset;width: 10%; text-align: center" type="text" formControlName="damage">
+            <button type="button" class="btn btn-outline-secondary" (click)="incrementDamage()" [disabled]="pokemonDamage.value>=POKEMON_REGLE.MAX_DAMAGE">+</button>
+          </div>
+        </div>
+        <div>
+          <span>Types : </span>
+          @for (type of pokemonTypeList.controls; track type; let index=$index) {
+            <span [style.background]="getPokemonColor(type.value)"
+                  [style.color]="ElectrikType(type.value)"
+                  style="cursor: pointer;" class="me-1 rounded-pill badge" (click)="pokemonTypeList.removeAt(index)">
+        {{type.value}} x
+      </span>
+          }
+        </div>
+
+        <div class="d-flex flex-wrap">
+          @for(type of pokemonService.getPokemonTypeList();track type){
+            <div class="col-4">
+              <input #checkbox (change)="onPokemonTypeChange(type,checkbox.checked)" [checked]="isPokemonTypeSelected(type)" class="form-check-input" [value]="type" type="checkbox" [id]="type">
+              <label class="form-check-label" [for]="type">{{type}}</label>
+            </div>
+          }
+        </div>
+        <div class="mt-2 d-flex justify-content-between">
+          <button routerLink="/pokemons"  type="button" class="btn btn-sm btn-success" >ANNULER</button>
+          <button
+            [class.btn-secondary]="form.invalid"
+            [class.btn-success]="form.valid"
+            [disabled]="form.invalid"
+            type="submit"
+            class="btn btn-sm"
+          >SAUVEGARFER</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

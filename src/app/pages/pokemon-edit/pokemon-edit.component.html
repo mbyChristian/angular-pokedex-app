@@ -1,0 +1,110 @@
+@if (pokemon(); as pokemon) {
+
+  <div style="max-width: 305px; margin: 0 auto" class="card p-2">
+    <img class="img-thumbnail" style="height: 180px" [src]="pokemon.picture" [alt]="pokemon.name">
+    <div>
+      <h2 class="card-title">{{pokemon.name}}</h2>
+      <form [formGroup]="form" (ngSubmit)="onsubmit()" novalidate>
+
+
+        <div class="mb-2 w-100 d-flex">
+          <span>Name</span>
+          <div class="d-flex flex-column">
+            <input formControlName="name" class="rounded-1 form-control" style="height: 35px;width: 60%"
+                   [class.is-invalid]="pokemonName.invalid"
+                   [class.is-valid]="pokemonName.valid"
+                   type="text" placeholder="Nom du pakemon"/>
+            @if (pokemonName.hasError('required')) {
+              <span class="invalid-feedback">ce champ est requi</span>
+            }@if (pokemonName.hasError('minlength')) {
+            <span class="invalid-feedback">veuillez saisir un nom plus long. min({{pokemonName.getError('minlength').requiredLength}})</span>
+          }
+            @if (pokemonName.hasError('maxlength')) {
+              <span class="invalid-feedback">veuillez saisir un nom plus cour. max({{pokemonName.getError('maxlength').requiredLength}})</span>
+            }
+            @if (pokemonName.hasError('pattern')) {
+              <span class="invalid-feedback">veuillez saisir des lettres. </span>
+            }
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <span>Points de vies</span>
+          <div style="width: 60%; height: 30px" class="mb-2 d-flex justify-content-between">
+            <button  type="button" class="btn btn-outline-secondary"
+                     (click)="decrementLife()" [disabled]="pokemonLife.value<=POKEMON_REGLE.MIN_LIFE">-</button>
+            <input style="all: unset;width: 10%; text-align: center" type="text" formControlName="life">
+            <button (click)="incrementLife()" type="button" class="btn btn-outline-secondary" [disabled]="pokemonLife.value>=POKEMON_REGLE.MAX_LIFE">+</button>
+          </div>
+        </div>
+        <div style="height: 30px" class="mb-2 d-flex justify-content-between">
+          <span>Degats</span>
+          <div style="width: 60%" class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" (click)="decrementDamage()" [disabled]="pokemonDamage.value<=POKEMON_REGLE.MIN_DAMAGE">-</button>
+            <input style="all: unset;width: 10%; text-align: center" type="text" formControlName="damage">
+            <button type="button" class="btn btn-outline-secondary" (click)="incrementDamage()" [disabled]="pokemonDamage.value>=POKEMON_REGLE.MAX_DAMAGE">+</button>
+          </div>
+        </div>
+        <div>
+          <span>Types : </span>
+          @for (type of pokemonTypeList.controls; track type; let index=$index) {
+            <span [style.background]="getPokemonColor(type.value)"
+                  [style.color]="ElectrikType(type.value)"
+                  style="cursor: pointer;" class="me-1 rounded-pill badge" (click)="pokemonTypeList.removeAt(index)">
+        {{type.value}} x
+      </span>
+          }
+        </div>
+
+        <div class="d-flex flex-wrap">
+          @for(type of pokemonService.getPokemonTypeList();track type){
+            <div class="col-4">
+              <input #checkbox (change)="onPokemonTypeChange(type,checkbox.checked)" [checked]="isPokemonTypeSelected(type)" class="form-check-input" [value]="type" type="checkbox" [id]="type">
+              <label class="form-check-label" [for]="type">{{type}}</label>
+            </div>
+          }
+        </div>
+        <div class="mt-2 d-flex justify-content-between">
+          <button [routerLink]="['/pokemons',pokemon.id]" type="button" class="btn btn-sm text-warning">RETOUR</button>
+          <button
+            [class.btn-secondary]="form.invalid"
+            [class.btn-success]="form.valid"
+            [disabled]="form.invalid"
+            type="submit"
+            class="btn btn-sm"
+          >SAUVEGARFER</button>
+        </div>
+      </form>
+    </div>
+  </div>
+} @if(loading()) {
+  <div id="floatingCirclesG">
+    <div class="f_circleG" id="frotateG_01"></div>
+    <div class="f_circleG" id="frotateG_02"></div>
+    <div class="f_circleG" id="frotateG_03"></div>
+    <div class="f_circleG" id="frotateG_04"></div>
+    <div class="f_circleG" id="frotateG_05"></div>
+    <div class="f_circleG" id="frotateG_06"></div>
+    <div class="f_circleG" id="frotateG_07"></div>
+    <div class="f_circleG" id="frotateG_08"></div>
+  </div>
+}@if(error()){
+  <div class="container text-center mt-5">
+    <div class="">
+      <div class="card-body">
+        <img
+          src="http://assets.pokemon.com/assets/cms2/img/pokedex/full/035.png"
+          class="img-fluid mx-auto d-block"
+          alt="Rondoudou"
+        />
+        <h2 class="mt-4">Hey, ce Pokemon n'existe pas !</h2>
+        <a routerLink="/pokemons" class="btn btn-link mt-3 text-decoration-none">
+          RETOURNER À L'ACCUEIL</a
+        >
+      </div>
+    </div>
+  </div>
+
+}
+
+
