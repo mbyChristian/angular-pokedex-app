@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+  import {Component, inject} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {PokemonService} from '../../services/pokemon.service';

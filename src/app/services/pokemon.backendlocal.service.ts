@@ -28,7 +28,7 @@ export class PokemonBackendlocalService implements PokemonService{
     return this.http.put<Pokemon>(url, pokemon)
   }
   addPokemon(pokemon: Omit<Pokemon, 'id'>): Observable<Pokemon> {
-    return this.http.post<Pokemon>(this.BASE_URL, pokemon);
+    return this.http.post<Pokemon>(`${this.BASE_URL}/`, pokemon);
   }
 
   getPokemonTypeList():string[]{

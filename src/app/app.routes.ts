@@ -4,7 +4,7 @@ import {PokemonProfileComponent} from './pages/pokemon-profile/pokemon-profile.c
 import {PokemonListComponent} from './pages/pokemon-list/pokemon-list.component';
 import {PokemonAddComponent} from './pages/pokemon-add/pokemon-add.component';
 import {NotFoundComponent} from './pages/not-found/not-found.component';
-import {DialogDeleteComponent} from './components/dialog-delete/dialog-delete.component';
+
 
 export const routes: Routes = [
   {path:'pokemons/edit/:id',component:PokemonEditComponent,title:'edition d\'un pokemon'},
